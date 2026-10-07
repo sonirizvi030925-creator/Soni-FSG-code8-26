@@ -1,87 +1,174 @@
-<!DOCTYPE html>
-<!--
-Aim: Program based on Document Object Model to change the background color of 
-the web page automatically after every 5 seconds.
+<!DOCTYPEdoctype html>
+<!-- 
+Aim: Program using Java Script to validate the email address entered by the user.
 Coder: Soni Chauhan
-Div: SE-COMPS A
+Class: SE Comps - A
 -->
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>RCOE</title>
+    <title>Email Validate</title>
     <style>
-        body {
-            background-color: #AFCBE3;
-            font-family: Arial, sans-serif;
-            text-align: center;
+        * {
+            box-sizing: border-box;
             margin: 0;
-            padding: 50px;
-            transition: background-color 0.5s ease;
+            padding: 0;
         }
 
-        h1 {
-            color: #3F3D4A;
-            font-size: 40px;
-            margin-bottom: 10px;
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: #333333;
         }
 
-        h3 {
-            color: #4F4B58;
+        .container {
+            background-color: rgba(255, 255, 255, 0.95);
+            width: 100%;
+            max-width: 420px;
+            padding: 40px 30px;
+            border-radius: 24px;
+            text-align: center;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(10px);
+        }
+
+        h2 {
             font-size: 24px;
+            font-weight: 700;
+            color: #1e293b;
+            margin-bottom: 8px;
+            letter-spacing: -0.5px;
+        }
+
+        /* Subtitle to make it look professional */
+        .subtitle {
+            font-size: 14px;
+            color: #64748b;
             margin-bottom: 30px;
         }
 
+        input {
+            width: 100%;
+            padding: 14px 16px;
+            border: 2px solid #e2e8f0;
+            border-radius: 12px;
+            font-size: 15px;
+            outline: none;
+            margin-bottom: 20px;
+            background-color: #f8fafc;
+            color: #1e293b;
+            transition: all 0.25s ease;
+        }
+
+        input:focus {
+            border-color: #6366f1;
+            background-color: #ffffff;
+            box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.15);
+        }
+
+        input::placeholder {
+            color: #94a3b8;
+        }
+
         button {
-            background-color: white;
-            color: #4F4B58;
+            width: 100%;
+            padding: 14px;
+            background-color: #6366f1;
+            color: white;
             border: none;
-            padding: 12px 25px;
+            border-radius: 12px;
             font-size: 16px;
-            border-radius: 8px;
+            font-weight: 600;
             cursor: pointer;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-            transition: 0.3s;
+            transition: all 0.2s ease;
+            box-shadow: 0 4px 12px rgba(99, 102, 241, 0.25);
         }
 
         button:hover {
-            background-color: #C5B4D9;
-            color: #3F3D4A;
-            transform: scale(1.05);
+            background-color: #4f46e5;
+            transform: translateY(-1px);
+            box-shadow: 0 6px 20px rgba(99, 102, 241, 0.35);
+        }
+
+        button:active {
+            transform: translateY(0);
+        }
+
+        #correct, #incorrect {
+            margin-top: 24px;
+            padding: 14px 16px;
+            border-radius: 12px;
+            font-size: 14px;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            animation: fadeIn 0.3s ease forwards;
+        }
+
+        #correct {
+            background-color: #f0fdf4;
+            border: 1px solid #bbf7d0;
+        }
+
+        #incorrect {
+            background-color: #fef2f2;
+            border: 1px solid #fecaca;
+        }
+
+        #correct h3, #incorrect h3 {
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(8px); }
+            to { opacity: 1; transform: translateY(0); }
         }
     </style>
 </head>
 <body>
 
-    <h1>Welcome to RCOE</h1>
-    <h3>SONI</h3>
-
-    <button onclick="changeBg()">Change Background</button>
+    <div class="container">
+        <h2>Email Validation</h2>
+        <p class="subtitle">Enter your email address below to verify its format</p>
+        
+        <input type="text" id="email" placeholder="name@example.com">
+        <button onclick="validateEmail()">Validate Email</button>
+        
+        <div id="correct" style="color: #16a34a; display: none;">
+            <h3>✓ The email address is valid</h3>
+        </div>
+        
+        <div id="incorrect" style="color: #dc2626; display: none;">
+            <h3>✕ Invalid email address format</h3>
+        </div>
+    </div>
 
     <script>
-        function changeBg() {
-            let colors = [
-                "#E8AEB7",
-                "#AFCBE3",
-                "#A8D5BA",
-                "#F2D388",
-                "#E6A6AB",
-                "#C5B4D9",
-                "774936"
-            ];
+        function validateEmail() {
+            const emailId = document.querySelector("#email");
+            const correctEle = document.querySelector("#correct");
+            const incorrectEle = document.querySelector("#incorrect");
 
-            const bodyele = document.querySelector("body");
-            let randomIndex = Math.floor(Math.random() * colors.length);
-            
-            bodyele.style.backgroundColor = colors[randomIndex];
+            let email = emailId.value;
+
+            const emailRegex = /^([a-zA-Z0-9_\.\-\+]+)@([a-zA-Z0-9_\.\-]+)\.([a-zA-Z]{2,5})$/;
+
+            if (emailRegex.test(email)) {
+                correctEle.style.display = "flex";
+                incorrectEle.style.display = "none";
+            } else {
+                incorrectEle.style.display = "flex";
+                correctEle.style.display = "none";
+            }
         }
-
-        // Automatically trigger the background change every 5 seconds
-        setInterval(() => {
-            changeBg();
-        }, 5000);
-
     </script>
-
 </body>
 </html>
